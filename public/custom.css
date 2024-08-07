@@ -1,0 +1,60 @@
+.custom-active {
+    font-weight: bold;
+    color: white;
+    border-bottom: 3px solid white;
+}
+.btn-teal {
+    background-color: #1979a1;
+    color: white;
+}
+.text-justify{
+    text-align: justify;
+}
+
+.home-title,
+.home-title3,
+.home-title5 {
+    background: linear-gradient(
+            45deg,
+            rgba(27, 26, 26, 0.6),
+            rgba(3, 1, 19, 0.6)
+        ),
+        url("images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    overflow: hidden;
+}
+.home-title2,
+.home-title4 {
+    background: linear-gradient(
+            45deg,
+            rgba(190, 0, 0, 0.6),
+            rgba(19, 0, 200, 0.6)
+        ),
+        url("images/background2.png");
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    overflow: hidden;
+}
+
+section#home h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    section#home h1 {
+        font-size: 2rem;
+        padding: 0.5rem 1rem;
+        margin: 1rem;
+    }
+}
