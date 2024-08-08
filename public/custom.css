@@ -7,7 +7,7 @@
     background-color: #1979a1;
     color: white;
 }
-.text-justify{
+.text-justify {
     text-align: justify;
 }
 
@@ -57,4 +57,13 @@ section#home h1 {
         padding: 0.5rem 1rem;
         margin: 1rem;
     }
+}
+
+#logout-modal {
+    position: fixed;
+    top: 100px;
+    right: 10px;
+    left: auto;
+    transform: none;
+    margin: 0;
 }

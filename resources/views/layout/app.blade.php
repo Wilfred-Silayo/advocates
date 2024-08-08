@@ -20,13 +20,13 @@
 
     @if(!auth()->check())
     <!-- Chat Bubble -->
-    <div class="fixed-bottom mb-3 me-3" id="chatBubbleContainer">
-        <div class="card" id="chatBubble" style="width: 18rem;">
+    <div class="position-fixed bottom-0 end-0 m-1" id="chatBubbleContainer">
+        <div class="card" id="chatBubble" style="width: 15rem;">
             <div class="card-body">
                 <button type="button" class="btn-close float-end" aria-label="Close" onclick="dismissChatBubble()"></button>
                 <h5 class="card-title">Chat with us</h5>
                 <p class="card-text">How can we help you today?</p>
-                <a href="#" class="btn btn-primary">Start Chat</a>
+                <a href="{{route('chat')}}" class="btn btn-primary">Start Chat</a>
             </div>
         </div>
     </div>

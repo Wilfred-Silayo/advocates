@@ -2,7 +2,8 @@
     <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: #1979a1;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="{{asset('images/logo.png')}}" class="rounded-circle border border-white p-2" alt="Brand Log" width="80">
+                <img src="{{asset('images/logo.png')}}" class="rounded-circle border border-white p-2" alt="Brand Logo"
+                    width="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,22 +13,22 @@
                 <ul class="navbar-nav ms-auto">
                     @auth
                     <li class="nav-item">
-                        <x-nav-link title="Dashboard" route="#" />
+                        <x-nav-link title="Dashboard" route="dashboard" />
                     </li>
                     <li class="nav-item">
-                        <x-nav-link title="Messages" route="#" />
+                        <x-nav-link title="Chats" route="chat.auth" />
                     </li>
                     <li class="nav-item dropdown me-2">
-                        <a class="nav-link  dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link dropdown-toggle fs-4 text-white" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Actions
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="light">
-                            <li><a class="dropdown-item fw-bold" href="#">Profile</a></li>
-                            <li><a class="dropdown-item fw-bold" href="#">Logout</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{route('profile')}}">Profile</a></li>
+                            <a class="dropdown-item fw-bold" href="#" data-bs-toggle="modal"
+                                data-bs-target="#logoutModal">Logout</a>
                         </ul>
                     </li>
-
                     @else
                     <li class="nav-item">
                         <x-nav-link title="Home" route="home" id="home" />
@@ -36,20 +37,21 @@
                         <x-nav-link title="About Us" route="home" id="about" />
                     </li>
                     <li class="nav-item dropdown me-2">
-                        <a class="nav-link fs-4 dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link fs-4 dropdown-toggle text-white" href="#services" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Services
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="light">
                             <li><a class="dropdown-item fw-bold" href="#service-1">Privacy and Data Protection</a></li>
                             <li><a class="dropdown-item fw-bold" href="#service-2">Cybersecurity</a></li>
-                            <li><a class="dropdown-item fw-bold" href="#service-3">Artificial Intelligence (AI) </a></li>
+                            <li><a class="dropdown-item fw-bold" href="#service-3">Artificial Intelligence (AI) </a>
+                            </li>
                             <li><a class="dropdown-item fw-bold" href="#service-4">Research and policies</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown me-2">
-                        <a class="nav-link fs-4 dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
+                        <a class="nav-link fs-4 dropdown-toggle text-white" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Resources
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="light">
@@ -61,7 +63,7 @@
                     </li>
                     <x-nav-link title="Contacts" route="home" id="contacts" />
                     <li class="nav-item">
-                        <a class="nav-link fs-4 text-white" href="#" data-bs-toggle="offcanvas"
+                        <a class="nav-link fs-4 text-white" href="#contacts" data-bs-toggle="offcanvas"
                             data-bs-target="#loginOffcanvas" aria-controls="loginOffcanvas">Login</a>
                     </li>
                     <li class="nav-item">
@@ -75,7 +77,8 @@
     </nav>
 </div>
 
-
+<!-- Logout modal -->
+ <x-log-out/>
 <!-- Auth components -->
 <x-login-form />
 <x-registration-form />

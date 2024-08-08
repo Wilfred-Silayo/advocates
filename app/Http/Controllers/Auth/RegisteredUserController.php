@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeEmail;
-use App\Models\Privilege;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('index');
     }
 
     /**
@@ -32,7 +32,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:15', 'unique:' . User::class],
+            'phone' => ['nullable', 'string', 'max:15', 'unique:' . User::class],
+            'address' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', Rules\Password::defaults()],
         ]);
@@ -41,13 +42,15 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'title' => $request->title,
+            'address' => $request->title,
             'password' => Hash::make($request->password),
         ]);
 
         // Send the welcome email using Laravel's default template
-         Mail::to($user->email)->send(new WelcomeEmail($user, $request->password));
+        // Mail::to($user->email)->send(new WelcomeEmail($user, $request->password));
 
-        return redirect()->route('users.data')->with('status', 'User registered successfully. A welcome email has been sent.');
+        Auth::guard('web')->login($user, $remember = true);
+
+        return redirect()->route('dashboard')->with('status', 'User registered successfully. A welcome email has been sent.');
     }
 }

@@ -2,7 +2,7 @@
     <h2 class="text-white text-center mb-4">Our Services</h2>
     <div class="row text-white fs-5 pe-2">
         <div class="col-12 col-md-6 mb-4">
-            <h4 class="p-2 text-primary">Privacy and Data Protection Services</h4>
+            <h4 id="service-1" class="p-2 text-primary">Privacy and Data Protection Services</h4>
             <ul class="list-unstyled ps-2 pe-2">
                 <li class="p-2 ">Registration of Data Controllers and or Data Processors</li>
                 <li class="p-2 ">Carrying out Data Protection Impact Assessment (DPIA)</li>
@@ -16,7 +16,7 @@
             </ul>
         </div>
         <div class="col-12 col-md-6 mb-4">
-            <h4 class="p-2 text-primary">Cybersecurity services</h4>
+            <h4 id="service-2" class="p-2 text-primary">Cybersecurity services</h4>
             <ul class="list-unstyled ps-2 pe-2">
                 <li class="p-2 ">Cybersecurity consultancy</li>
                 <li class="p-2 ">Management of IT infrastructure</li>
@@ -27,14 +27,14 @@
     </div>
     <div class="row text-white fs-5 pe-2">
         <div class="col-12 col-md-6 mb-4">
-            <h4 class="p-2 text-primary">Artificial Intelligence (AI) </h4>
+            <h4 id="service-3" class="p-2 text-primary">Artificial Intelligence (AI) </h4>
             <ul class="list-unstyled ps-2 pe-2">
                 <li class="p-2 ">Research on Artificial Intelligence (AI) </li>
                 <li class="p-2 ">We offer Artificial Intelligence (AI) solution for your organization</li>
             </ul>
         </div>
         <div class="col-12 col-md-6 mb-4">
-            <h4 class="p-2 text-primary">Research and policies</h4>
+            <h4 id="service-4" class="p-2 text-primary">Research and policies</h4>
             <ul class="list-unstyled ps-2 pe-2">
             <li class="p-2 ">We are committed to conduct the valuable researches for our clients.</li>
         </div>

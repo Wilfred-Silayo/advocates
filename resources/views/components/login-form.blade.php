@@ -1,12 +1,12 @@
 <!-- Offcanvas Login Form -->
-<div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="loginOffcanvas"
-    aria-labelledby="loginOffcanvasLabel">
+<div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="loginOffcanvas" aria-labelledby="loginOffcanvasLabel">
     <div class="offcanvas-header">
         <h5 id="loginOffcanvasLabel">Login</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form method="POST">
+        <x-auth-session-status :status="session('status')" :type="session('type')" />
+        <form method="POST" action="{{route('login')}}">
             @csrf
 
             <!-- Email Address -->
@@ -32,8 +32,7 @@
             </div>
 
             <div class="d-block mb-4">
-                <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#registerOffcanvas"
-                    aria-controls="registerOffcanvas">
+                <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#registerOffcanvas" aria-controls="registerOffcanvas">
                     {{ __('Forgot your password?') }} <span class="text-primary fw-bold">{{ __('Register here') }}</span>
                 </a>
             </div>

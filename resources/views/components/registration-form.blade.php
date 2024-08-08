@@ -6,7 +6,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form method="POST">
+        <x-auth-session-status :status="session('status')" :type="session('type')" />
+        <form method="POST" action="{{route('register')}}">
             @csrf
             <div class="row">
 
@@ -32,10 +33,20 @@
             <div class="row">
                 <!-- Phone -->
                 <div class="mt-4">
-                    <x-input-label for="phone" :value="__('Phone')" />
+                    <x-input-label for="phone" :value="__('Phone (Optional)')" />
                     <x-text-input id="phone" type="phone" name="phone" :value="old('phone')" required autofocus
                         autocomplete="phone" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Phone -->
+                <div class="mt-4">
+                    <x-input-label for="address" :value="__('Address (Optional)')" />
+                    <x-text-input id="address" type="address" name="address" :value="old('address')" required autofocus
+                        autocomplete="address" />
+                    <x-input-error :messages="$errors->get('address')" class="mt-2" />
                 </div>
             </div>
 
@@ -51,7 +62,8 @@
             <div class="row mx-2 mt-4">
                 <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#loginOffcanvas"
                     aria-controls="loginOffcanvas">
-                    {{ __('Already have an account?') }} <span class="text-primary fw-bold">{{ __('Login here') }}</span>
+                    {{ __('Already have an account?') }} <span
+                        class="text-primary fw-bold">{{ __('Login here') }}</span>
                 </a>
             </div>
 

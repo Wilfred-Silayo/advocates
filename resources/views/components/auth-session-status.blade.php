@@ -1,4 +1,4 @@
-@props(['status' => '', 'type' => 'info'])
+@props(['status' => '', 'type' => ''])
 
 @if ($status)
     <!-- Alert info is the default -->

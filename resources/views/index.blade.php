@@ -3,10 +3,6 @@
 
 @section('content')
 <div class="container-fluid p-0  overflow-hidden">
-    @auth
-
-
-    @else
     <div class="row home-title min-vh-50 p-0">
         <x-home-component />
         <x-about-component />
@@ -29,7 +25,6 @@
     <div class="row btn-teal">
         <x-footer-component />
     </div>
-    
-    @endauth
+
 </div>
 @endsection
