@@ -25,7 +25,7 @@
                 <!-- Email Address -->
                 <div class="mt-4">
                     <x-input-label for="email" :value="__('Email')" />
-                    <x-text-input id="email" type="email" name="email" :value="old('email')" required
+                    <x-text-input id="reg-email" type="email" name="email" :value="old('email')" required
                         autocomplete="username" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
@@ -41,7 +41,7 @@
             </div>
 
             <div class="row">
-                <!-- Phone -->
+                <!-- Address -->
                 <div class="mt-4">
                     <x-input-label for="address" :value="__('Address (Optional)')" />
                     <x-text-input id="address" type="address" name="address" :value="old('address')" required autofocus
@@ -54,7 +54,7 @@
                 <!-- Password -->
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" />
-                    <x-text-input id="password" type="password" name="password" required autocomplete="new-password" />
+                    <x-text-input id="reg-password" type="password" name="password" required autocomplete="new-password" />
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
             </div>

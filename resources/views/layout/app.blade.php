@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }} ">
     <link rel="shortcut icon" href="{{ asset('images/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('custom.css') }} ">
+    <script src="{{asset('jquery-3.7.1.min.js')}}"></script>
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>
@@ -32,7 +34,6 @@
     </div>
     @endif
 
-    <script src="{{asset('jquery-3.7.1.min.js')}}"></script>
     <script src="{{asset('custom.js')}}"></script>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 </body>

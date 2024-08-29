@@ -11,20 +11,16 @@ use Illuminate\Validation\Rules\Password;
 
 class PasswordController extends Controller
 {
-    public function index()
-    {
-        return view('profile.password.index');
-    }
 
     public function update(Request $request): RedirectResponse
     {
         $validated = $request->validate( [
-            'current_password' => ['required', 'string'],
+            'old_password' => ['required', 'string'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
         $user = Auth::user();
-        if (!Hash::check($validated['current_password'], $user->password)) {
+        if (!Hash::check($validated['old_password'], $user->password)) {
             return back()->with(['status'=>'The current password is incorrect.','type'=>'error']);
         }
 
@@ -32,7 +28,7 @@ class PasswordController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
         
-        return back()->with('status', 'Password updated successfully!');
+        return back()->with(['status'=> 'Password updated successfully', 'type'=>'success']);
         
         
     }

@@ -32,7 +32,7 @@ class ProfileController extends Controller
         // Validate the request
         $request->validate([
             'profile_pic' => 'nullable|mimes:jpg,jpeg,bmp,png|max:2048',
-            'title' => 'required|string|max:10',
+            'address' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15|unique:users,phone,' . $user->id,
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -67,7 +67,7 @@ class ProfileController extends Controller
         }
 
         // Update user fields individually
-        $user->title = $request->input('title');
+        $user->address = $request->input('address');
         $user->name = $request->input('name');
         $user->phone = $request->input('phone');
         $user->email = $request->input('email');
@@ -75,7 +75,7 @@ class ProfileController extends Controller
         // Save the updated user information
         $user->save();
 
-        return Redirect::route('profile.index')->with('status', 'profile-updated');
+        return back()->with(['status'=> 'profile updated successfully.','type'=>'success']);
     }
 
 

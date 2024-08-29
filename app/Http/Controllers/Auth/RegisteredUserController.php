@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'address' => $request->title,
+            'address' => $request->address,
             'password' => Hash::make($request->password),
         ]);
 
@@ -53,4 +53,6 @@ class RegisteredUserController extends Controller
 
         return redirect()->route('dashboard')->with('status', 'User registered successfully. A welcome email has been sent.');
     }
+
+
 }
