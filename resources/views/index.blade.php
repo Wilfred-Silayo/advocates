@@ -7,6 +7,16 @@
         <x-home-component />
         <x-about-component />
     </div>
+    <div class="row align-items-center justify-content-center bg-light">
+        <div class="col-12 col-md-8 p-3">
+            <x-latest-event-component :latestEvent="$latestEvent" />
+        </div>
+        <div class="row align-items-center justify-content-center">
+            <div class="col-4">
+                <a href="{{route('guest.event')}}" class="btn my-5 btn-outline-success">More events</a>
+            </div>
+        </div>
+    </div>
     <div class="row home-title2 min-vh-50">
         <x-mission-component />
     </div>

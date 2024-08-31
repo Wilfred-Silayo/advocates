@@ -4,27 +4,32 @@
 
 @section('content')
 <div class="container mt-5">
-
-    <!-- Error and Success Alerts -->
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <!-- Error Alerts -->
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Guidelines</h1>
+        @if(auth()->check())
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGuidelineModal">
             Create Guideline
         </button>
+        @endif
     </div>
 
     <div class="row">
@@ -38,24 +43,26 @@
                         <p>Date created: {{$guideline->created_at}}</p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{ route('guidelines.download', $guideline->id) }}" class="btn btn-info btn-sm">
+                        <a href="{{ auth()->check() ? route('guidelines.download', $guideline->id):route('guest.guidelines.download', $guideline->id) }}" class="btn btn-info btn-sm">
                             Download
                         </a>
                         <!-- Edit Button with Correct Attributes -->
-                        <button class="btn btn-warning btn-sm btn-edit" 
-                            data-bs-toggle="modal" data-bs-target="#editGuidelineModal" 
-                            data-id="{{ $guideline->id }}" 
-                            data-title="{{ $guideline->title }}" 
-                            data-description="{{ $guideline->description }}" 
+                        @if(auth()->check())
+                        <button class="btn btn-warning btn-sm btn-edit"
+                            data-bs-toggle="modal" data-bs-target="#editGuidelineModal"
+                            data-id="{{ $guideline->id }}"
+                            data-title="{{ $guideline->title }}"
+                            data-description="{{ $guideline->description }}"
                             data-file="{{ asset('storage/' . $guideline->file_path) }}">
                             Edit
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm btn-delete" 
-                            data-id="{{ $guideline->id }}" 
-                            data-bs-toggle="modal" 
+                        <button type="button" class="btn btn-danger btn-sm btn-delete"
+                            data-id="{{ $guideline->id }}"
+                            data-bs-toggle="modal"
                             data-bs-target="#deleteConfirmationModal">
                             Delete
                         </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -74,7 +81,7 @@
 
 </div>
 
-<x-guideline-modal/>
+<x-guideline-modal />
 
 <!-- Edit Guideline Modal -->
 <div class="modal fade" id="editGuidelineModal" tabindex="-1" aria-labelledby="editGuidelineModalLabel" aria-hidden="true">
@@ -155,7 +162,7 @@
         $('#deleteConfirmationModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             var guidelineId = button.data('id');
-            
+
             var form = $(this).find('#deleteGuidelineForm');
             form.attr('action', '/guidelines/' + guidelineId);
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ChatController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SystemController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,6 +21,14 @@ Route::middleware('guest')->group(function () {
     Route::get('/privacy', [SystemController::class, 'privacy'])->name('privacy');
     Route::get('/terms and conditions', [SystemController::class, 'terms'])->name('terms');
     Route::get('/disclaimer', [SystemController::class, 'disclaimer'])->name('disclaimer');
+
+    Route::get('g/guidelines/{guideline}/download', [GuidelineController::class, 'download'])->name('guest.guidelines.download');
+    Route::get('g/reports/{report}/download', [ReportController::class, 'download'])->name('guest.reports.download');
+
+    Route::get('g/report', [ReportController::class, 'index'])->name('guest.report');
+    Route::get('g/article', [ArticleController::class, 'index'])->name('guest.article');
+    Route::get('g/guideline', [GuidelineController::class, 'index'])->name('guest.guideline');
+    Route::get('g/event', [EventController::class, 'index'])->name('guest.event');
 });
 
 Route::middleware('auth')->group(function () {
@@ -32,10 +42,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/send-message', [ChatController::class, 'sendMessage'])->name('send.message');
     Route::post('/delete-conversation', [ChatController::class, 'deleteConversation'])->name('delete.conversation');
 
-    //ARTICLES
+    //profiles
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+
+Route::middleware('check.role')->group(function () {
     Route::resource('articles', ArticleController::class);
     Route::resource('events', EventController::class);
+
+    Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
+    Route::resource('users', UserController::class);
+
+    Route::get('/admins/search', [AdminController::class, 'search'])->name('admins.search');
+    Route::resource('admins', AdminController::class);
 
     Route::resource('reports', ReportController::class);
     Route::get('reports/{report}/download', [ReportController::class, 'download'])->name('reports.download');
@@ -43,14 +65,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('guidelines', GuidelineController::class);
     Route::get('guidelines/{guideline}/download', [GuidelineController::class, 'download'])->name('guidelines.download');
 
-
-    //profiles
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::get('/user-chart-data', [ChartController::class, 'userData'])->name('users.data');
 
     Route::get('/chart-data', [ChartController::class, 'getChartData'])->name('visitors');
 });
+
 require __DIR__ . '/auth.php';

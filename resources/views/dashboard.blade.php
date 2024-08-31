@@ -4,6 +4,25 @@
 
 @section('content')
 <div class="container my-4">
+    <!-- Error and Success Alerts -->
+    <!-- Error Alerts -->
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
     <div class="card bg-success border-0 shadow-lg rounded-3">
         <div class="card-body p-4">
             <div class="d-flex align-items-center">
@@ -30,11 +49,13 @@
             <div class="card custom-card bg-success text-white mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Admins</h5>
-                    <p class="card-text">Manage admins and add new admins with ease. Click the links below to perform actions.</p>
-                    <a href="/add-admin" class="btn btn-outline-warning ">
+                    <p class="card-text">Manage admins and add new admins with ease. Click the links below to perform
+                        actions.</p>
+                    <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal"
+                        data-bs-target="#createAdminModal">
                         Add New Admin
                     </a>
-                    <a href="/manage-admin" class="btn ms-2 btn-outline-warning">
+                    <a href="{{route('admins.index')}}" class="btn ms-2 btn-outline-warning">
                         Manage Admin
                     </a>
                 </div>
@@ -44,11 +65,13 @@
             <div class="card custom-card bg-secondary text-white mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Users</h5>
-                    <p class="card-text">Manage users and add new users with ease. Click the links below to perform actions.</p>
-                    <a href="/add-admin" class="btn btn-outline-warning ">
+                    <p class="card-text">Manage users and add new users with ease. Click the links below to perform
+                        actions.</p>
+                    <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal"
+                        data-bs-target="#createUserModal">
                         Add New User
                     </a>
-                    <a href="/manage-admin" class="btn ms-2 btn-outline-warning">
+                    <a href="{{route('users.index')}}" class="btn ms-2 btn-outline-warning">
                         Manage Users
                     </a>
                 </div>
@@ -58,8 +81,10 @@
             <div class="card custom-card bg-success text-white mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Events</h5>
-                    <p class="card-text">Manage events and add new events with ease. Click the links below to perform actions.</p>
-                    <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal" data-bs-target="#createEventModal">
+                    <p class="card-text">Manage events and add new events with ease. Click the links below to perform
+                        actions.</p>
+                    <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal"
+                        data-bs-target="#createEventModal">
                         Add New Event
                     </a>
                     <a href="{{route('events.index')}}" class="btn ms-2 btn-outline-warning">
@@ -72,8 +97,10 @@
             <div class="card custom-card bg-success text-white mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Reports</h5>
-                    <p class="card-text">Manage reports and add new reports with ease. Click the links below to perform actions.</p>
-                    <a href="#" class="btn btn-outline-warning "  data-bs-toggle="modal" data-bs-target="#createReportModal">
+                    <p class="card-text">Manage reports and add new reports with ease. Click the links below to perform
+                        actions.</p>
+                    <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal"
+                        data-bs-target="#createReportModal">
                         Add New Report
                     </a>
                     <a href="{{route('reports.index')}}" class="btn ms-2 btn-outline-warning">
@@ -86,8 +113,10 @@
             <div class="card custom-card bg-secondary text-white mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Articles</h5>
-                    <p class="card-text">Manage articles and add new articles with ease. Click the links below to perform actions.</p>
-                    <a href="#" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#postArticleModal">
+                    <p class="card-text">Manage articles and add new articles with ease. Click the links below to
+                        perform actions.</p>
+                    <a href="#" class="btn btn-outline-warning" data-bs-toggle="modal"
+                        data-bs-target="#postArticleModal">
                         Add New Article
                     </a>
 
@@ -101,9 +130,11 @@
             <div class="card custom-card bg-success text-white mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Guidelines</h5>
-                    <p class="card-text">Manage guidelines and add new guidelines with ease. Click the links below to perform actions.</p>
+                    <p class="card-text">Manage guidelines and add new guidelines with ease. Click the links below to
+                        perform actions.</p>
                     <div class="d-flex justify-content-between">
-                        <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal" data-bs-target="#createGuidelineModal">
+                        <a href="#" class="btn btn-outline-warning " data-bs-toggle="modal"
+                            data-bs-target="#createGuidelineModal">
                             Add New Guideline
                         </a>
                         <a href="{{route('guidelines.index')}}" class="btn ms-2 btn-outline-warning">
@@ -188,10 +219,10 @@
 <!-- modals -->
 <x-article-modal />
 <x-event-modal />
-<x-report-modal/>
-<x-guideline-modal/>
-
-
+<x-report-modal />
+<x-guideline-modal />
+<x-admin-modal />
+<x-user-modal />
 
 <script>
     $(document).ready(function() {
@@ -266,7 +297,8 @@
                         });
 
                         $('.total-users').text(data.totalUsersThisWeek);
-                        $('.percentage-increase').html(`<i class="bi bi-arrow-up"></i> ${data.percentageIncrease}%`);
+                        $('.percentage-increase').html(
+                            `<i class="bi bi-arrow-up"></i> ${data.percentageIncrease}%`);
                     } else {
                         console.error('Invalid data format:', data);
                     }

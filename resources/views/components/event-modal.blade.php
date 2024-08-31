@@ -12,19 +12,24 @@
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Event Name</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                        <textarea class="form-control" id="content" name="content" rows="5"
+                            required>
+                        {{ old('content') }}
+                        </textarea>
                     </div>
                     <div class="mb-3">
                         <label for="date_time" class="form-label">Event Date and Time</label>
-                        <input type="datetime-local" class="form-control" id="date_time" name="date_time" required>
+                        <input type="datetime-local" class="form-control" id="date_time" name="date_time"
+                            value="{{old('date_time')}}" required>
                     </div>
                     <div class="mb-3">
                         <label for="images" class="form-label">Event Images</label>
-                        <input type="file" class="form-control" id="images" name="images[]" multiple>
+                        <input type="file" class="form-control" id="images" name="images[]" multiple
+                            value="{{old('images[]')}}">
                         <small class="form-text text-muted">Select multiple images if needed.</small>
                     </div>
                     <button type="submit" class="btn btn-primary">Create Event</button>

@@ -4,7 +4,18 @@
 
 @section('content')
 <div class="container mt-5">
-    <!-- Flash Message for Actions -->
+    <!-- Error Alerts -->
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -15,8 +26,10 @@
     <!-- Page Title and Create Button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Articles</h1>
+        @if(auth()->check())
         <a href="#" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#postArticleModal">Create New
             Article</a>
+        @endif
     </div>
 
     <!-- Articles Grid -->
@@ -31,13 +44,16 @@
                         <div>
                             <a href="#" class="btn btn-info btn-sm me-2" data-bs-toggle="modal"
                                 data-bs-target="#viewArticleModal-{{ $article->id }}">View</a>
+                            @if(auth()->check())
                             <a href="#" class="btn btn-warning btn-sm me-2" data-bs-toggle="modal"
                                 data-bs-target="#editArticleModal-{{ $article->id }}">Edit</a>
+                            @endif
 
                         </div>
+                        @if(auth()->check())
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                             data-bs-target="#deleteArticleModal-{{ $article->id }}">Delete</button>
-
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer text-muted">
@@ -52,7 +68,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="viewArticleModalLabel-{{ $article->id }}">{{ $article->title }}</h5>
+                        <h5 class="modal-title text-break" id="viewArticleModalLabel-{{ $article->id }}">{{ $article->title }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -71,7 +87,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editArticleModalLabel-{{ $article->id }}">Edit Article:
+                        <h5 class="modal-title text-break" id="editArticleModalLabel-{{ $article->id }}">Edit Article:
                             {{ $article->title }}
                         </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -111,7 +127,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteArticleModalLabel-{{ $article->id }}">Delete Article</h5>
+                        <h5 class="modal-title text-break" id="deleteArticleModalLabel-{{ $article->id }}">Delete Article</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">

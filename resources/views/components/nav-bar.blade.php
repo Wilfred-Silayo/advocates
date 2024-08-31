@@ -55,10 +55,10 @@
                             Resources
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="light">
-                            <li><a class="dropdown-item fw-bold" href="#">Reports</a></li>
-                            <li><a class="dropdown-item fw-bold" href="#">Articles</a></li>
-                            <li><a class="dropdown-item fw-bold" href="#">Guidelines</a></li>
-                            <li><a class="dropdown-item fw-bold" href="#">News and Updates</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{route('guest.report')}}">Reports</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{route('guest.article')}}">Articles</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{route('guest.guideline')}}">Guidelines</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{route('guest.event')}}">News and Updates</a></li>
                         </ul>
                     </li>
                     <x-nav-link title="Contacts" route="home" id="contacts" />

@@ -4,27 +4,32 @@
 
 @section('content')
 <div class="container mt-5">
-
-    <!-- Error and Success Alerts -->
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <!-- Error Alerts -->
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="fw-bold">Reports</h1>
+        @if(auth()->check())
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createReportModal">
             Create Report
         </button>
+        @endif
     </div>
 
     <div class="row">
@@ -38,24 +43,23 @@
                         <p>Date created: {{$report->created_at}}</p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{ route('reports.download', $report->id) }}" class="btn btn-info btn-sm">
+                        <a href="{{ auth()->check() ? route('reports.download', $report->id):route('guest.reports.download', $report->id) }}"
+                            class="btn btn-info btn-sm">
                             Download
                         </a>
                         <!-- Edit Button with Correct Attributes -->
-                        <button class="btn btn-warning btn-sm btn-edit" 
-                            data-bs-toggle="modal" data-bs-target="#editReportModal" 
-                            data-id="{{ $report->id }}" 
-                            data-title="{{ $report->title }}" 
-                            data-description="{{ $report->description }}" 
+                         @if(auth()->check())
+                        <button class="btn btn-warning btn-sm btn-edit" data-bs-toggle="modal"
+                            data-bs-target="#editReportModal" data-id="{{ $report->id }}"
+                            data-title="{{ $report->title }}" data-description="{{ $report->description }}"
                             data-file="{{ asset('storage/' . $report->file_path) }}">
                             Edit
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm btn-delete" 
-                            data-id="{{ $report->id }}" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#deleteConfirmationModal">
+                        <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $report->id }}"
+                            data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
                             Delete
                         </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -74,7 +78,7 @@
 
 </div>
 
-<x-report-modal/>
+<x-report-modal />
 
 <!-- Edit Report Modal -->
 <div class="modal fade" id="editReportModal" tabindex="-1" aria-labelledby="editReportModalLabel" aria-hidden="true">
@@ -112,7 +116,8 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -136,31 +141,31 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Populate Edit Modal
-        $('#editReportModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var reportId = button.data('id');
-            var title = button.data('title');
-            var description = button.data('description');
-            var file = button.data('file');
+$(document).ready(function() {
+    // Populate Edit Modal
+    $('#editReportModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var reportId = button.data('id');
+        var title = button.data('title');
+        var description = button.data('description');
+        var file = button.data('file');
 
-            var modal = $(this);
-            modal.find('#edit-report-id').val(reportId);
-            modal.find('#edit-title').val(title);
-            modal.find('#edit-description').val(description);
-            modal.find('#editReportForm').attr('action', '/reports/' + reportId);
-        });
-
-        // Populate Delete Modal
-        $('#deleteConfirmationModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var reportId = button.data('id');
-            
-            var form = $(this).find('#deleteReportForm');
-            form.attr('action', '/reports/' + reportId);
-        });
+        var modal = $(this);
+        modal.find('#edit-report-id').val(reportId);
+        modal.find('#edit-title').val(title);
+        modal.find('#edit-description').val(description);
+        modal.find('#editReportForm').attr('action', '/reports/' + reportId);
     });
+
+    // Populate Delete Modal
+    $('#deleteConfirmationModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var reportId = button.data('id');
+
+        var form = $(this).find('#deleteReportForm');
+        form.attr('action', '/reports/' + reportId);
+    });
+});
 </script>
 
 @endsection
