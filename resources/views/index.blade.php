@@ -22,6 +22,7 @@
     <div class="row bg-light min-vh-50">
         <x-contact-component />
     </div>
+    <x-cookie-consent-component />
     <div class="row btn-teal">
         <x-footer-component />
     </div>

@@ -58,4 +58,17 @@ class User extends Authenticatable
     public function hasRole($role){
         return $this->role == $role;
     }
+
+    public function sentChats()
+    {
+        return $this->hasMany(Chat::class, 'sender_id');
+    }
+
+    /**
+     * Get the chats received by the user.
+     */
+    public function receivedChats()
+    {
+        return $this->hasMany(Chat::class, 'receiver_id');
+    }
 }

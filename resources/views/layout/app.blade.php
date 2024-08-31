@@ -12,8 +12,11 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }} ">
     <link rel="shortcut icon" href="{{ asset('images/logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('custom.css') }} ">
+    <link rel="stylesheet" href="{{asset('font-awesome/css/fontawesome.css')}}">
+    <link rel="stylesheet" href="{{asset('font-awesome/css/brands.css')}}">
+    <link rel="stylesheet" href="{{asset('font-awesome/css/solid.css')}}">
     <script src="{{asset('jquery-3.7.1.min.js')}}"></script>
-    @vite(['resources/js/app.js'])
+    <script src="{{asset('apexcharts/dist/apexcharts.min.js')}}"></script>
 </head>
 
 <body>

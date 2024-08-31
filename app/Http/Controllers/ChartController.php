@@ -1,159 +1,82 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Visitor;
-use Carbon\Carbon;
 
 class ChartController extends Controller
 {
-    public function getVisitorsChartData(Request $request)
+    public function userData()
     {
-        $filterType = $request->input('filter_type');
-        $value = $request->input('value');
+        // Define the days of the week
+        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        if ($filterType === 'week') {
-            $year = $value;
-            $data = ['labels' => [], 'data' => []];
-            $visitorsData = Visitor::whereYear('created_at', $year)
-                ->selectRaw('DAYOFWEEK(created_at) as day, COUNT(*) as count')
-                ->groupBy('day')
-                ->pluck('count', 'day')
-                ->toArray();
+        // Get user counts for this week
+        $thisWeek = User::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->selectRaw('DAYNAME(created_at) as day, count(*) as count')
+            ->groupBy('day')
+            ->orderByRaw('FIELD(day, ' . implode(',', array_map(fn($day) => "'" . $day . "'", $daysOfWeek)) . ')')
+            ->get()
+            ->keyBy('day');
 
-            $labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            $data = array_values(array_map(fn($day) => $visitorsData[$day] ?? 0, range(1, 7)));
+        // Get user counts for last week
+        $lastWeek = User::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])
+            ->selectRaw('DAYNAME(created_at) as day, count(*) as count')
+            ->groupBy('day')
+            ->orderByRaw('FIELD(day, ' . implode(',', array_map(fn($day) => "'" . $day . "'", $daysOfWeek)) . ')')
+            ->get()
+            ->keyBy('day');
 
-            return response()->json([
-                'labels' => $labels,
-                'data' => $data
-            ]);
-        } elseif ($filterType === 'year') {
-            $currentYear = Carbon::now()->year;
-            $data = ['labels' => [], 'data' => []];
-            $visitorsData = Visitor::whereYear('created_at', $currentYear)
-                ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-                ->groupBy('month')
-                ->pluck('count', 'month')
-                ->toArray();
+        // Fill missing days with zero count
+        $thisWeekData = array_map(fn($day) => ['day' => $day, 'count' => $thisWeek->get($day)->count ?? 0], $daysOfWeek);
+        $lastWeekData = array_map(fn($day) => ['day' => $day, 'count' => $lastWeek->get($day)->count ?? 0], $daysOfWeek);
 
-            $labels = [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-                'August',
-                'September',
-                'October',
-                'November',
-                'December'
-            ]; // Months
-            $data = array_values(array_map(fn($month) => $visitorsData[$month] ?? 0, range(1, 12)));
-
-            return response()->json([
-                'labels' => $labels,
-                'data' => $data
-            ]);
-        }
+        $totalUsersThisWeek = array_sum(array_column($thisWeekData, 'count'));
+        $totalUsersLastWeek = array_sum(array_column($lastWeekData, 'count'));
+        $percentageIncrease = $totalUsersLastWeek ? (($totalUsersThisWeek - $totalUsersLastWeek) / $totalUsersLastWeek) * 100 : 0;
 
         return response()->json([
-            'labels' => [],
-            'data' => []
+            'thisWeek' => $thisWeekData,
+            'lastWeek' => $lastWeekData,
+            'totalUsersThisWeek' => $totalUsersThisWeek,
+            'percentageIncrease' => round($percentageIncrease, 2)
         ]);
     }
 
-    public function getYearlyVisitorsChartData()
+    public function getChartData()
     {
-        $currentYear = Carbon::now()->year;
-        $data = ['labels' => [], 'data' => []];
-        $visitorsData = Visitor::whereYear('created_at', $currentYear)
-            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-            ->groupBy('month')
-            ->pluck('count', 'month')
-            ->toArray();
+        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-        $labels = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December'
-        ]; // Months
-        $data = array_values(array_map(fn($month) => $visitorsData[$month] ?? 0, range(1, 12)));
+        // Get visit counts for this week
+        $thisWeek = Visitor::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->selectRaw('DAYNAME(created_at) as day, count(*) as count')
+            ->groupBy('day')
+            ->orderByRaw('FIELD(day, ' . implode(',', array_map(fn($day) => "'" . $day . "'", $daysOfWeek)) . ')')
+            ->get()
+            ->keyBy('day');
+
+        // Get visit counts for last week
+        $lastWeek = Visitor::whereBetween('created_at', [now()->subWeek()->startOfWeek(), now()->subWeek()->endOfWeek()])
+            ->selectRaw('DAYNAME(created_at) as day, count(*) as count')
+            ->groupBy('day')
+            ->orderByRaw('FIELD(day, ' . implode(',', array_map(fn($day) => "'" . $day . "'", $daysOfWeek)) . ')')
+            ->get()
+            ->keyBy('day');
+
+        // Fill missing days with zero count
+        $thisWeekData = array_map(fn($day) => ['day' => $day, 'count' => $thisWeek->get($day)->count ?? 0], $daysOfWeek);
+        $lastWeekData = array_map(fn($day) => ['day' => $day, 'count' => $lastWeek->get($day)->count ?? 0], $daysOfWeek);
+
+        $totalVisitorsThisWeek = array_sum(array_column($thisWeekData, 'count'));
+        $totalVisitorsLastWeek = array_sum(array_column($lastWeekData, 'count'));
+        $percentageIncrease = $totalVisitorsLastWeek ? (($totalVisitorsThisWeek - $totalVisitorsLastWeek) / $totalVisitorsLastWeek) * 100 : 0;
 
         return response()->json([
-            'labels' => $labels,
-            'data' => $data
-        ]);
-    }
-
-    public function getUsersChartData(Request $request)
-    {
-        $filterType = $request->input('filter_type');
-        $value = $request->input('value');
-
-        if ($filterType === 'week') {
-            $year = $value;
-            $data = ['labels' => [], 'data' => []];
-            $usersData = User::whereYear('created_at', $year)
-                ->selectRaw('DAYOFWEEK(created_at) as day, COUNT(*) as count')
-                ->groupBy('day')
-                ->pluck('count', 'day')
-                ->toArray();
-
-            $labels = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            $data = array_values(array_map(fn($day) => $usersData[$day] ?? 0, range(1, 7)));
-
-            return response()->json([
-                'labels' => $labels,
-                'data' => $data
-            ]);
-        } elseif ($filterType === 'year') {
-            $currentYear = Carbon::now()->year;
-            $data = ['labels' => [], 'data' => []];
-            $usersData = User::whereYear('created_at', $currentYear)
-                ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-                ->groupBy('month')
-                ->pluck('count', 'month')
-                ->toArray();
-
-            $labels = [
-                'January',
-                'February',
-                'March',
-                'April',
-                'May',
-                'June',
-                'July',
-                'August',
-                'September',
-                'October',
-                'November',
-                'December'
-            ];
-            $data = array_values(array_map(fn($month) => $usersData[$month] ?? 0, range(1, 12)));
-
-            return response()->json([
-                'labels' => $labels,
-                'data' => $data
-            ]);
-        }
-
-        return response()->json([
-            'labels' => [],
-            'data' => []
+            'thisWeek' => $thisWeekData,
+            'lastWeek' => $lastWeekData,
+            'totalVisitorsThisWeek' => $totalVisitorsThisWeek,
+            'percentageIncrease' => round($percentageIncrease, 2)
         ]);
     }
 }

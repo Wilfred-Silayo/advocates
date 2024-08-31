@@ -67,3 +67,60 @@ section#home h1 {
     transform: none;
     margin: 0;
 }
+
+.search-container {
+    height: calc(100vh - 100px); 
+    overflow-y: auto;
+}
+
+.chat-container {
+    height: calc(100vh - 100px); 
+    overflow-y: auto;
+}
+
+.cookie-banner {
+    z-index: 9999; 
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+/* Default style for user-item */
+.user-item {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+.user-item:hover {
+    background-color: blue;
+    color: white;
+}
+
+/* Style for selected user-item */
+.user-item.selected {
+    background-color: black;
+    color: white;
+}
+.message {
+    margin-bottom: 10px;
+    max-width: 70%; 
+    clear: both; 
+}
+
+.sent {
+    float: right; 
+    background-color: green;
+    color: white;
+}
+
+.received {
+    float: left;
+    background-color: blue;
+    color: white;
+}
+
+
