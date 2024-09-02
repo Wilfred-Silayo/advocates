@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
+    public function login(Request $request){
+        $request->session()->flash('status', 'Please login to chat with us');
+        return redirect()->route('login');
+    }
+    
     public function list()
     {
         $superuser = User::where('role', 'superuser')->first();

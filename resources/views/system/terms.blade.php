@@ -8,7 +8,7 @@
 
         <p class="fw-medium">
             Please read these Terms and Conditions (“Terms”, “Terms and Conditions”) carefully before using our website
-            ……………………………………….. (the “Service”) operated by Privacy Centre (“us”, “we”, or “our”).
+            (the “Service”) operated by Privacy Centre (“us”, “we”, or “our”).
         </p>
         <p class="fw-medium">
             Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms.

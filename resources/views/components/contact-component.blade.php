@@ -1,4 +1,4 @@
-<div id="contacts" class="row home-title3 pt-4" style="height: 200px;">
+<div id="contacts" class="row home-title3 py-5">
     <h5 class="fw-bold text-center text-white fs-3">
         Contact us
     </h5>

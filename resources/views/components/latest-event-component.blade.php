@@ -5,9 +5,17 @@
 
     <!-- Event Description with More/Less Button -->
     <div id="event-description">
-        <p class="short-content text-break">{{ Str::limit($latestEvent->content, 100) }}</p>
-        <p class="full-content text-break d-none">{{ $latestEvent->content }}</p>
-        <button id="toggle-description" class="btn btn-info">More</button>
+        <!-- Short content with Bootstrap truncation -->
+        <p class="short-content mb-0 text-break text-ellipsis" >
+            {{ Str::limit($latestEvent->content, 100) }}
+        </p>
+        <!-- Full content hidden by default -->
+        <p class="full-content d-none text-break">
+            {{ $latestEvent->content }}
+        </p>
+        @if(strlen($latestEvent->content) > 100)
+            <button id="toggle-description" class="btn btn-info mt-2">More</button>
+        @endif
     </div>
 
     <!-- Carousel for Images -->
@@ -40,12 +48,16 @@
             var button = $(this);
 
             if (fullContent.hasClass('d-none')) {
-                fullContent.removeClass('d-none').hide().slideDown(300); // Slide down animation
+                // Show full content
+                fullContent.removeClass('d-none').hide().slideDown(300);
+                shortContent.addClass('d-none'); // Hide short content
                 button.text('Less');
             } else {
+                // Hide full content
                 fullContent.slideUp(300, function() {
                     fullContent.addClass('d-none');
-                }); // Slide up animation
+                });
+                shortContent.removeClass('d-none'); // Show short content
                 button.text('More');
             }
         });

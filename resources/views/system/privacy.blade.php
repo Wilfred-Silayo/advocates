@@ -338,9 +338,6 @@
         </p>
 
         <p class="fw-medium">
-            Get in touch: at ………………………………………..
-        </p>
-        <p class="fw-medium">
             E-mail: <a href="mailto:privacycentre@gmail.com ">privacycentre@gmail.com </a>.
         </p>
 

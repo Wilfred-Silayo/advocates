@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Event;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,10 +16,12 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('index');
+        $latestEvent = Event::latest()->first();
+        return view('index', ['latestEvent' => $latestEvent]);
     }
+    
 
     /**
      * Handle an incoming authentication request.
@@ -39,7 +42,7 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('web')->logout();
 
-        $request->session()->forget('visitor_recorded'); 
+        $request->session()->forget('visitor_recorded');
 
         $request->session()->invalidate();
 
