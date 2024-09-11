@@ -20,7 +20,7 @@
 
     <!-- Carousel for Images -->
     @if($latestEvent->images)
-    <div id="eventImagesCarousel" class="carousel slide mt-3">
+    <div id="eventImagesCarousel" class="carousel slide mt-3" data-bs-ride="carousel" data-bs-interval="5000">
         <div class="carousel-inner">
             @foreach($latestEvent->images as $index => $image)
             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">

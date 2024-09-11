@@ -1,8 +1,8 @@
 <div class="container-fluid p-0">
-    <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: #1979a1;">
+    <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: purple;">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="{{asset('images/logo.png')}}" class="rounded-circle border border-white p-2" alt="Brand Logo"
+                <img src="{{asset('images/logo-adv.jpg')}}" class="rounded-circle border border-white p-2" alt="Brand Logo"
                     width="80">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
